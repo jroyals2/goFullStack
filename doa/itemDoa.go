@@ -31,3 +31,24 @@ func (i *ItemDAO) FindAll() ([]Item, error) {
 	err := db.C(COLLECTION).Find(bson.M{}).All(&items)
 	return items, err
 }
+
+func (i *ItemDAO) FindById(id string) (Item, error) {
+	var item Item
+	err := db.C(COLLECTION).FindId(bson.ObjectIdHex).One(&item)
+	return item, err
+}
+
+func (i *ItemDAO) Insert(item Item) error {
+	err := db.C(COLLECTION).Insert(&item)
+	return err
+}
+
+func (i *ItemDAO) Delete(item Item) error {
+	err := db.C(COLLECTION).Remove(&item)
+	return err
+}
+
+func (i *ItemDAO) Update(item Item) error {
+	err := db.C(COLLECTION).UpdateId(item.ID, &item)
+	return err
+}
